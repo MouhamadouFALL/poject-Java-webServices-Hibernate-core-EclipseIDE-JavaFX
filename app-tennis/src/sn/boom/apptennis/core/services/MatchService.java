@@ -23,10 +23,16 @@ public class MatchService {
 	
 	public void saveMatch(Match match) {
 		try {
-			scoreRepository.create(match.getScore());
 			matchRepository.create(match);
+			scoreRepository.create(match.getScore());
+			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() +" | "+ e.getClass());
 		}
+	}
+
+	private String printStackTrace(Exception e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

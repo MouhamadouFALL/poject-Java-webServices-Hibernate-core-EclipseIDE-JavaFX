@@ -6,6 +6,7 @@ package sn.boom.apptennis.core.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 
 import sn.boom.apptennis.core.entities.Score;
 import sn.boom.sgi.jdbc.DBManagerBDS;
@@ -26,9 +27,18 @@ public class ScoreRepositoryImpl {
 			preparedStatement.setLong(1, score.getMatch().getId());
 			preparedStatement.setByte(2, score.getSet1());
 			preparedStatement.setByte(3, score.getSet2());
-			preparedStatement.setByte(4, score.getSet3());
-			preparedStatement.setByte(5, score.getSet4());
-			preparedStatement.setByte(6, score.getSet5());
+			if (score.getSet3() == null)
+				preparedStatement.setNull(4, Types.TINYINT);
+			else
+				preparedStatement.setByte(4, score.getSet3());
+			if (score.getSet4() == null)
+				preparedStatement.setNull(5, Types.TINYINT);
+			else
+				preparedStatement.setByte(5, score.getSet4());
+			if (score.getSet5() == null)
+				preparedStatement.setNull(6, Types.TINYINT);
+			else
+				preparedStatement.setByte(6, score.getSet5());
 			
 			preparedStatement.execute();
 			ResultSet rsKey = preparedStatement.getGeneratedKeys();

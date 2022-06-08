@@ -13,21 +13,19 @@ public class DBManagerBDS {
 	public static Connection getConnection() throws Exception {
 		
 		try {
-			if (connection == null) {
-				// charge Driver class Mysql
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				
-				singleDataSource = new BasicDataSource();
-				
-				// open connection
-				String url = "jdbc:mysql://localhost:3306/tennis?useSSL=false&serverTimezone=UTC";
-				singleDataSource.setInitialSize(5); // initialiser la poule de connexion
-				singleDataSource.setUrl(url);
-				singleDataSource.setUsername("root");
-				singleDataSource.setPassword("");
-				
-				connection = singleDataSource.getConnection();
-			}
+			// charge Driver class Mysql
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			singleDataSource = new BasicDataSource();
+			
+			// open connection
+			String url = "jdbc:mysql://localhost:3306/tennis?useSSL=false&serverTimezone=UTC";
+			singleDataSource.setInitialSize(5); // initialiser la poule de connexion
+			singleDataSource.setUrl(url);
+			singleDataSource.setUsername("root");
+			singleDataSource.setPassword("");
+			
+			connection = singleDataSource.getConnection();
 			return connection;
 		}
 		catch(ClassNotFoundException e) {

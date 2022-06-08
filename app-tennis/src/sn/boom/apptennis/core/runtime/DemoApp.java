@@ -3,112 +3,42 @@ package sn.boom.apptennis.core.runtime;
 import java.util.List;
 import java.util.Scanner;
 
+import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.entities.Joueur;
+import sn.boom.apptennis.core.entities.Match;
+import sn.boom.apptennis.core.entities.Score;
 import sn.boom.apptennis.core.repository.JoueurRepositoryImpl;
 import sn.boom.apptennis.core.services.JoueurService;
+import sn.boom.apptennis.core.services.MatchService;
 
 public class DemoApp {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 
-		// test the method create : Test OK
-		System.out.println("Entrer le nom du Joueur : ");
-		String nom = scan.nextLine();
-		System.out.println("Entrer le prenom du Joueur : ");
-		String prenom = scan.nextLine();
-		System.out.println("Entrer le genre du Joueur : ");
-		Character sexe = scan.nextLine().charAt(0);
+		// Tester les services
+		MatchService matchService = new MatchService();
 		
-		Joueur joueur = new Joueur();
-		joueur.setNom(nom);
-		joueur.setPrenom(prenom);
-		joueur.setSexe(sexe);
+		Match match = new Match();
+		Score score = new Score();
+		score.setSet1((byte)3);
+		score.setSet2((byte)4);
+		score.setSet3((byte)6);
+		match.setScore(score);
+		Joueur vainqueur = new Joueur();
+		vainqueur.setId(74L);
+		Joueur finaliste = new Joueur();
+		finaliste.setId(77l);
+		match.setVainqueur(vainqueur);
+		match.setFinaliste(finaliste);
+		Epreuve epreuve = new Epreuve();
+		epreuve.setId(3l);
+		match.setEpreuve(epreuve);
+		score.setMatch(match);
 		
-		try {
-			JoueurRepositoryImpl repo = new JoueurRepositoryImpl();
-			repo.create(joueur);
-			System.out.println("success to save player of id : "+ joueur.getId());
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		
-		// Test method getById() : Test OK
-		/*System.out.println("---------------------- Test Method getById() ----------------------");
-		try {
-			JoueurRepositoryImpl repo = new JoueurRepositoryImpl();
-			Joueur joueur = repo.getById(122l);
-			System.out.println("*** Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom() +" | Sexe : "+ joueur.getSexe() +". ***");
-		
-		} 
-		catch (Exception e) {
-			System.err.println(e.getMessage());
-		}*/
-		
-		// Test method list() : Test OK
-		/*System.out.println("---------------------- Test Method list ----------------------");
-		try {
-			JoueurRepositoryImpl repo = new JoueurRepositoryImpl();
-			List<Joueur> joueurs = repo.list();
-			if (joueurs != null) {
-				for (Joueur joueur : joueurs) {
-					System.out.println("*** Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom() +" | Sexe : "+ joueur.getSexe() +". ***");
-				}
-			}
-		
-		} 
-		catch (Exception e) {
-			System.err.println(e.getMessage());
-		}*/
-		
-		// test the method update : Test OK
-		/*try {
-			
-				
-			JoueurRepositoryImpl repo = new JoueurRepositoryImpl();
-			//System.out.println("*** Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom() +" | Sexe : "+ joueur.getSexe() +". ***");
-			
-			System.out.println("Entrer l'identifiant du joueur à modifier : ");
-			Long identifiant = Long.parseLong(scan.nextLine());
-			System.out.println("Entrer le nouveau nom du Joueur : ");
-			String nom = scan.nextLine();
-			System.out.println("Entrer le nouveau prenom du Joueur : ");
-			String prenom = scan.nextLine();
-			System.out.println("Entrer le nouveau genre du Joueur : ");
-			Character sexe = scan.nextLine().charAt(0);
-			
-			Joueur joueur = new Joueur();
-			joueur.setId(identifiant);
-			joueur.setNom(nom);
-			joueur.setPrenom(prenom);
-			joueur.setSexe(sexe);
-			
-			repo.update(joueur);
-			
-			System.out.println("success to update player !");
-		} 
-		catch (Exception e) {
-			System.err.println(e.getMessage());
-		}*/
-		
-		// test the method delete : Test OK
-		/*try {
-			JoueurRepositoryImpl repo = new JoueurRepositoryImpl();
-			
-			System.out.println("Entrer l'identifiant du joueur à supprimer : ");
-			Long identifiant = Long.parseLong(scan.nextLine());
-			
-			repo.delete(identifiant);
-			
-			System.out.println("delete player success !");
-		} 
-		catch (Exception e) {
-			System.err.println(e.getMessage());
-		}*/
-
+		matchService.saveMatch(match);
 
 		scan.close();
-
 	}
 
 }
