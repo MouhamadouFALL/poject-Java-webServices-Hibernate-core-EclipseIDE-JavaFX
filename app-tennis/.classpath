@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/commons-dbcp2-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool2-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate Libraries"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

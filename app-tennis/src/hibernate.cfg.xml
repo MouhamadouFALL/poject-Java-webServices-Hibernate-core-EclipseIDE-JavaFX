@@ -1,0 +1,38 @@
+<!DOCTYPE hibernate-configuration PUBLIC 
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+    
+<hibernate-configuration>
+	<session-factory>
+		<!-- JDBC DataBase connection setting -->
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/tennis?useSSL=false&amp;serverTimezone=UTC</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password"></property>
+		
+		<!-- dbcp connection pool configuration-->
+		<property name="hibernate.dbcp.initialSize">5</property>
+		
+		<!-- select our sql dialect -->
+		<property name="dialect">org.hbernate.dialect.MySQL5Dialect</property>
+		
+		<!-- Echo the sql to stdout-->
+		<property name="show_sql">true</property>
+		
+		<!-- set the current session context-->
+		<property name="current_session_context_class">thread</property>
+		
+		<!-- set the cache provider_calss -->
+		<property name="cache.provider_class">
+			org.hibernate.cache.NoCacheProvider
+		</property>
+		
+		<!-- Drop and re-create the database schema on startup -->
+		<property name="hbm2ddl.auto">validate</property>
+		
+		<!-- Entity to map -->
+		<mapping class="sn.boom.apptennis.core.entities.Joueur"/>
+	</session-factory>
+
+</hibernate-configuration>
+    
