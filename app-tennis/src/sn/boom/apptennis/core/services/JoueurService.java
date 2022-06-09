@@ -15,8 +15,21 @@ public class JoueurService {
 		
 		try {
 			joueurRepository.create(joueur);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	public Joueur getJoueur(long id) {
+		Joueur joueur = null;
+		try {
+			 joueur = joueurRepository.getById(id);
+		}
+		catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return joueur;
 	}
 }

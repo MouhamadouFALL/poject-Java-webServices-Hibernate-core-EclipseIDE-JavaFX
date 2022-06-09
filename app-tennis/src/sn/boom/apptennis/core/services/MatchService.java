@@ -10,7 +10,7 @@ import sn.boom.apptennis.core.repository.ScoreRepositoryImpl;
 /**
  * @author nabyFall
  *
- */
+ */ 
 public class MatchService {
 
 	private MatchRepositoryImpl matchRepository;
@@ -29,10 +29,5 @@ public class MatchService {
 		} catch (Exception e) {
 			System.err.println(e.getMessage() +" | "+ e.getClass());
 		}
-	}
-
-	private String printStackTrace(Exception e) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
