@@ -19,7 +19,7 @@ public class HibernateManager {
 		}
 	}
 	
-	public SessionFactory getSessionFactory() {
+	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	

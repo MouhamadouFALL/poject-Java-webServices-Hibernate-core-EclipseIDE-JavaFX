@@ -6,7 +6,9 @@ public class DemoApp {
 
 	public static void main(String[] args) {
 		JoueurController joueurController = new JoueurController();
-		joueurController.afficheJoueur();
+		//joueurController.afficheJoueur();
+		//joueurController.saveJoueur();
+		joueurController.updateJoueur();
 	}
 
 }

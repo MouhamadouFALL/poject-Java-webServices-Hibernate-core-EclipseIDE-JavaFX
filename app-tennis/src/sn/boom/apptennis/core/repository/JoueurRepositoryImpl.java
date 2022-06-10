@@ -6,54 +6,42 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import sn.boom.apptennis.core.entities.Joueur;
+import sn.boom.sgi.hibernate.HibernateManager;
 import sn.boom.sgi.jdbc.DBManagerBDS;
 
 public class JoueurRepositoryImpl {
 
 	public void create(Joueur joueur) throws Exception {
 		
-		try(Connection connection = DBManagerBDS.getConnection()) {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().openSession();
+			tx = session.beginTransaction();
 			
-			String query = "Insert Into Joueur(nom, prenom, sexe) Values(?, ?, ?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, joueur.getNom());
-			preparedStatement.setString(2, joueur.getPrenom());
-			preparedStatement.setString(3, joueur.getSexe().toString());
+			session.persist(joueur);
 			
-			preparedStatement.execute();
-			ResultSet rskey = preparedStatement.getGeneratedKeys();
-			
-			if (rskey.next()) {
-				joueur.setId(rskey.getLong(1));
-			}
-			
-			connection.close();
+			tx.commit();
 		}
 		catch(Exception e) {
+			if (tx != null) tx.rollback();
 			throw new Exception(e.getMessage());
+		}
+		finally {
+			if (session != null) session.close();
 		}
 	}
 	
+	
 	public void update(Joueur joueur) throws Exception {
 		
-		try(Connection connection = DBManagerBDS.getConnection()){
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
 			
-			String query = "Update Joueur set nom=?, prenom=?, sexe=? where id=?";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, joueur.getNom());
-			preparedStatement.setString(2, joueur.getPrenom());
-			preparedStatement.setString(3, joueur.getSexe().toString());
-			preparedStatement.setLong(4, joueur.getId());
-			
-			preparedStatement.execute();
-			
-			connection.close();
-			
-		}
-		catch(Exception e) {
-			throw new Exception(e.getMessage());
-		}
+		session.update(joueur);
 	}
 	
 	public void delete(long id) throws Exception {
@@ -74,30 +62,12 @@ public class JoueurRepositoryImpl {
 	
 	public Joueur getById(long id) throws Exception {
 		
-		Joueur joueur = null;
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
 		
-		try(Connection connection = DBManagerBDS.getConnection()){
-			
-			String query = "Select id, nom, prenom, sexe From joueur Where id=?";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet result = preparedStatement.executeQuery();
-			if (result.next()) {
-				joueur = new Joueur();
-				joueur.setId(id);
-				joueur.setNom(result.getString("nom"));
-				joueur.setPrenom(result.getString("prenom"));
-				joueur.setSexe(result.getString("sexe").charAt(0));
-			}
-			
-			connection.close();
-		}
-		catch(Exception e) {
-			throw new Exception(e.getMessage());
-		}
+		Joueur joueur = session.get(Joueur.class, id);
 		
 		return joueur;
+		
 	}
 	
 	public List<Joueur> list() throws Exception {
