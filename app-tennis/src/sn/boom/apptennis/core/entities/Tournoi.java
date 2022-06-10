@@ -3,12 +3,20 @@
  */
 package sn.boom.apptennis.core.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @author nabyFall
  *
  */
+@Entity
 public class Tournoi {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom;
 	private String code;

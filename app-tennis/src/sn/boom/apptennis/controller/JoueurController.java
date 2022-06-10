@@ -3,6 +3,7 @@
  */
 package sn.boom.apptennis.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import sn.boom.apptennis.core.entities.Joueur;
@@ -25,7 +26,6 @@ public class JoueurController {
 		
 		System.out.println("Entrer l'identifiant du Joueur :");
 		Long identifiant = Long.parseLong(scan.nextLine());
-		
 		Joueur joueur = joueurService.getJoueur(identifiant);
 		
 		System.out.println(" Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
@@ -61,16 +61,22 @@ public class JoueurController {
 		Long identifiant = Long.parseLong(scan.nextLine());
 		joueur = joueurService.getJoueur(identifiant);
 		if (joueur != null) {
+			System.out.println("voulez-vous modifier ce joueur :");
 			System.out.println("Id : "+ joueur.getId() +" Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
 			
 			System.out.println("------------------------- Modifier -------------------------");
 			
 			System.out.println("Nouveau nom du joueur :");
 			String nom = scan.nextLine();
-			joueur.setNom(nom);
-			joueurService.updateJoueur(identifiant, nom);
+			System.out.println("Nouveau prenom du joueur :");
+			String prenom = scan.nextLine();
+			System.out.println("sexe du joueur :");
+			char sexe = scan.nextLine().charAt(0);
 			
-			System.out.println("Id : "+ joueur.getId() +" Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
+			joueur.setNom(nom);
+			joueur.setPrenom(prenom);
+			joueur.setSexe(sexe);
+			joueurService.updateJoueur(joueur);
 		}
 		else {
 			System.out.println("Joueur inexistant !");
@@ -78,4 +84,26 @@ public class JoueurController {
 		
 		scan.close();
 	}
+	
+	public void supprimerJoueur() {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Entrer l'identifiant du Joueur à supprimer :");
+		Long identifiant = Long.parseLong(scan.nextLine());
+		
+		joueurService.deleteJoueur(identifiant);
+		
+		System.out.println("Id : "+ identifiant +" bien supprimer ");
+		
+		scan.close();
+	}
+	
+	public void listeJoueur() {
+		List<Joueur> joueurs = joueurService.listeJoueurs();
+		System.out.println("-------------------------------- Liste des Joueurs ---------------------------------");
+		for(Joueur joueur : joueurs) {
+			System.out.println("Id : "+ joueur.getId() +" | Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
+		}
+	}
+	
 }

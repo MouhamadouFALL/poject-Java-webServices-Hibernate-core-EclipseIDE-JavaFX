@@ -28,10 +28,14 @@
 		</property>
 		
 		<!-- Drop and re-create the database schema on startup -->
-		<property name="hbm2ddl.auto">validate</property>
+		<!-- <property name="hbm2ddl.auto">validate</property> -->
+		<property name="hbm2ddl.auto">update</property>
 		
 		<!-- Entity to map -->
 		<mapping class="sn.boom.apptennis.core.entities.Joueur"/>
+		<!-- <mapping class="sn.boom.apptennis.core.entities.Epreuve"/> -->
+		<!-- <mapping class="sn.boom.apptennis.core.entities.Match"/> -->
+		<mapping class="sn.boom.apptennis.core.entities.Tournoi"/>
 	</session-factory>
 
 </hibernate-configuration>

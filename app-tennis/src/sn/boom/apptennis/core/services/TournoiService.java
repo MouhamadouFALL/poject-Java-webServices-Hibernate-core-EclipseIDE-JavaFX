@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package sn.boom.apptennis.core.services;
 
 import java.util.List;
@@ -5,137 +8,121 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import sn.boom.apptennis.core.entities.Joueur;
-import sn.boom.apptennis.core.repository.JoueurRepositoryImpl;
+import sn.boom.apptennis.core.entities.Tournoi;
+import sn.boom.apptennis.core.repository.TournoiRepositoryImpl;
 import sn.boom.sgi.hibernate.HibernateManager;
 
-public class JoueurService {
+/**
+ * @author nabyFall
+ *
+ */
+public class TournoiService {
 	
-	private JoueurRepositoryImpl joueurRepository;
+	private TournoiRepositoryImpl tournoiRepository;
 	
-	public JoueurService() {
-		this.joueurRepository = new JoueurRepositoryImpl();
-	}
-
-	public void createJoueur(Joueur joueur) {
-		Session session = null;
-		Transaction tx = null;
-		try {
-			
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
-			
-			joueurRepository.create(joueur);
-			
-			tx.commit();
-			
-			System.out.println("Joueur "+ joueur.getId() +" a été bien sauvegarder!");
-		} 
-		catch (Exception e) {
-			
-			if (tx != null) tx.rollback();
-			System.err.println(e.getMessage());
-		}
-		finally {
-			if (session != null) session.close();
-		}
+	public TournoiService() {
+		this.tournoiRepository = new TournoiRepositoryImpl();
 	}
 	
-	public Joueur getJoueur(long id) {
-		
-		Joueur joueur = null;
-		Session session = null;
-		Transaction tx = null;
-		
-		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
-			
-			joueur = joueurRepository.getById(id);
-			
-			tx.commit();
-		}
-		catch (Exception e) {
-			
-			if (tx != null) tx.rollback();
-			System.err.println(e.getMessage());
-		}
-		finally {
-			if (session != null) session.close();
-		}
-		
-		return joueur;
-	}
-	
-	public void updateJoueur(Joueur obj) {
+	public void saveTournoi(Tournoi tournoi) {
 		
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
-			
-			Joueur joueur = joueurRepository.getById(obj.getId());
-			if (joueur != null) {
-				joueur.setNom(obj.getNom());
-				joueur.setPrenom(obj.getPrenom());
-				joueur.setSexe(obj.getSexe());
-			}
-			
-			tx.commit();
-		}
-		catch (Exception e) {
-			
-			if (tx != null) tx.rollback();
-			System.err.println(e.getMessage());
-		}
-		finally {
-			if (session != null) session.close();
-		}
-	}
-	
-	public void deleteJoueur(long id) {
-		
-		Session session = null;
-		Transaction tx = null;
-		
-		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
-			
-			joueurRepository.delete(id);
-			
-			tx.commit();
-		}
-		catch (Exception e) {
-			
-			if (tx != null) tx.rollback();
-			System.err.println(e.getMessage());
-		}
-		finally {
-			if (session != null) session.close();
-		}
-	}
-	
-	public List<Joueur> listeJoueurs(){
-		
-		List<Joueur> joueurs = null;
-		Session session = null;
-		Transaction tx= null;
-		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
-			joueurs = joueurRepository.list();
+			tournoiRepository.create(tournoi);
 			tx.commit();
 		}
 		catch(Exception e) {
 			if (tx != null) tx.rollback();
-			System.err.println(e.getMessage());
+			System.err.println("Error : "+ e.getMessage() +"  |  "+ e.getClass());
 		}
 		finally {
-			if(session != null) session.close();
+			if (session != null) session.close();
+		}
+	}
+
+	public Tournoi getTournoi(long id) {
+		
+		Tournoi tournoi = null;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			tournoi = tournoiRepository.getById(id);
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println("Error : "+ e.getMessage() +"  |  "+ e.getClass());
+		}
+		finally {
+			if (session != null) session.close();
 		}
 		
-		return joueurs;
+		return tournoi;
+	}
+	
+	public List<Tournoi> listeTournoi() {
+		
+		List<Tournoi> tournois = null;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			tournois = tournoiRepository.list();
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println("Error : "+ e.getMessage() +"  |  "+ e.getClass());
+		}
+		finally {
+			if (session != null) session.close();
+		}
+		
+		return tournois;
+	}
+	
+	public void updateTournoi(Tournoi tournoi) {
+		
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			tournoiRepository.update(tournoi);
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println("Error : "+ e.getMessage() +"  |  "+ e.getClass());
+		}
+		finally {
+			if (session != null) session.close();
+		}
+		
+	}
+	
+	public void delete(long id) {
+		
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			tournoiRepository.delete(id);
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println("Error : "+ e.getMessage() +"  |  "+ e.getClass());
+		}
+		finally {
+			if (session != null) session.close();
+		}
 	}
 }

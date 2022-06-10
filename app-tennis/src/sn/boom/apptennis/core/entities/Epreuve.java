@@ -3,15 +3,27 @@
  */
 package sn.boom.apptennis.core.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * @author nabyFall
  *
  */
+@Entity
 public class Epreuve {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Short annee;
+	@ManyToOne
 	private Tournoi tournoi;
+	@Column(name = "type_epreuve")
 	private Character typeEpreuve;
 	
 	public Epreuve() {}
