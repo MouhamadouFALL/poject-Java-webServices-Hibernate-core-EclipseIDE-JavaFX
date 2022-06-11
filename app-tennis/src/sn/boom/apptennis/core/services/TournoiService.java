@@ -104,7 +104,6 @@ public class TournoiService {
 		finally {
 			if (session != null) session.close();
 		}
-		
 	}
 	
 	public void delete(long id) {

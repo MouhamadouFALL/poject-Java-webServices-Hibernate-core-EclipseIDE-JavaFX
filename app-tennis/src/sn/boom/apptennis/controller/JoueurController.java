@@ -105,5 +105,4 @@ public class JoueurController {
 			System.out.println("Id : "+ joueur.getId() +" | Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
 		}
 	}
-	
 }

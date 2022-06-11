@@ -6,7 +6,6 @@ package sn.boom.apptennis.controller;
 import java.util.List;
 import java.util.Scanner;
 
-import sn.boom.apptennis.core.entities.Joueur;
 import sn.boom.apptennis.core.entities.Tournoi;
 import sn.boom.apptennis.core.services.TournoiService;
 

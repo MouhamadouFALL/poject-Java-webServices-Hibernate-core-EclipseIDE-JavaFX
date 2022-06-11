@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -22,6 +23,7 @@ public class Epreuve {
 	private Long id;
 	private Short annee;
 	@ManyToOne
+	@JoinColumn(name = "id_tournoi")
 	private Tournoi tournoi;
 	@Column(name = "type_epreuve")
 	private Character typeEpreuve;

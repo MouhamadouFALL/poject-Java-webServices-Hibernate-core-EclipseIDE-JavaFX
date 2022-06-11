@@ -1,7 +1,6 @@
 package sn.boom.apptennis.runtime;
 
-import sn.boom.apptennis.controller.TournoiController;
-import sn.boom.apptennis.core.services.TournoiService;
+import sn.boom.apptennis.controller.EpreuveController;
 
 public class DemoApp {
 
@@ -13,12 +12,17 @@ public class DemoApp {
 		//joueurController.supprimerJoueur();
 		//joueurController.listeJoueur();
 		
-		TournoiController tournoiController = new TournoiController();
+		//TournoiController tournoiController = new TournoiController();
 		//tournoiController.afficheTournoi();
 		//tournoiController.saveTournoi();
 		//tournoiController.updateTournoi();
 		//tournoiController.supprimerTournoi();
-		tournoiController.listeTournois();
+		//tournoiController.listeTournois();
+		
+		EpreuveController epreuveController = new EpreuveController();
+		//epreuveController.afficheEpreuve();
+		epreuveController.afficheDerniereEpreuve();
+		//epreuveController.saveEpreuve();
 	}
 
 }

@@ -33,7 +33,7 @@
 		
 		<!-- Entity to map -->
 		<mapping class="sn.boom.apptennis.core.entities.Joueur"/>
-		<!-- <mapping class="sn.boom.apptennis.core.entities.Epreuve"/> -->
+		<mapping class="sn.boom.apptennis.core.entities.Epreuve"/>
 		<!-- <mapping class="sn.boom.apptennis.core.entities.Match"/> -->
 		<mapping class="sn.boom.apptennis.core.entities.Tournoi"/>
 	</session-factory>
