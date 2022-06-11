@@ -5,6 +5,7 @@ package sn.boom.apptennis.core.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Epreuve {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Short annee;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tournoi")
 	private Tournoi tournoi;
 	@Column(name = "type_epreuve")
@@ -54,5 +55,4 @@ public class Epreuve {
 	public void setTypeEpreuve(Character typeEpreuve) {
 		this.typeEpreuve = typeEpreuve;
 	}
-
 }

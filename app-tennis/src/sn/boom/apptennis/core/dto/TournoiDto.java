@@ -1,27 +1,12 @@
-/**
- * 
- */
-package sn.boom.apptennis.core.entities;
+package sn.boom.apptennis.core.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class TournoiDto {
 
-/**
- * @author nabyFall
- *
- */
-@Entity
-public class Tournoi {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom;
 	private String code;
 	
-	public Tournoi() {}
+	public TournoiDto() {}
 
 	public Long getId() {
 		return id;
@@ -46,4 +31,5 @@ public class Tournoi {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 }

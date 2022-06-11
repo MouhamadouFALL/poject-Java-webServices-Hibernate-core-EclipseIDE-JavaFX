@@ -20,8 +20,8 @@ public class DemoApp {
 		//tournoiController.listeTournois();
 		
 		EpreuveController epreuveController = new EpreuveController();
-		//epreuveController.afficheEpreuve();
-		epreuveController.afficheDerniereEpreuve();
+		epreuveController.afficheEpreuve();
+		//epreuveController.afficheEpreuveTournoi();
 		//epreuveController.saveEpreuve();
 	}
 

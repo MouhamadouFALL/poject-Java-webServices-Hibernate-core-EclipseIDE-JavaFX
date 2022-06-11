@@ -6,6 +6,9 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import sn.boom.apptennis.core.dto.EpreuveFullDto;
+import sn.boom.apptennis.core.dto.EpreuveLightDto;
+import sn.boom.apptennis.core.dto.TournoiDto;
 import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.repository.EpreuveRepository;
 import sn.boom.sgi.hibernate.HibernateManager;
@@ -41,9 +44,10 @@ public class EpreuveService {
 		}
 	}
 	
-	public Epreuve getEpreuveWithTournoi(long id) {
+	public EpreuveFullDto getEpreuveWithTournoi(long id) {
 		
 		Epreuve epreuve = null;
+		EpreuveFullDto dto  = null;
 		Session session = null;
 		Transaction tx = null;
 		
@@ -52,9 +56,22 @@ public class EpreuveService {
 			tx = session.beginTransaction();
 			
 			epreuve = epreuveRepository.getById(id);
-			Hibernate.initialize(epreuve.getTournoi());
+			Hibernate.unproxy(epreuve.getTournoi());
 			
 			tx.commit();
+			
+			// transformation entity en entity dto
+			dto = new EpreuveFullDto();
+			dto.setId(epreuve.getId());
+			dto.setAnnee(epreuve.getAnnee());
+			dto.setTypeEpreuve(epreuve.getTypeEpreuve());
+			
+			TournoiDto tournoiDto = new TournoiDto();
+			tournoiDto.setId(epreuve.getTournoi().getId());
+			tournoiDto.setCode(epreuve.getTournoi().getCode());
+			tournoiDto.setNom(epreuve.getTournoi().getNom());
+			
+			dto.setTournoi(tournoiDto);
 		}
 		catch (Exception e) {
 			if (tx != null) tx.rollback();
@@ -64,12 +81,13 @@ public class EpreuveService {
 			if (session != null) session.close();
 		}
 		
-		return epreuve;
+		return dto;
 	}
 	
-	public Epreuve getEpreuveWithoutTournoi(long id) {
+	public EpreuveLightDto getEpreuveWithoutTournoi(long id) {
 		
 		Epreuve epreuve = null;
+		EpreuveLightDto dto  = null;
 		Session session = null;
 		Transaction tx = null;
 		
@@ -80,6 +98,12 @@ public class EpreuveService {
 			epreuve = epreuveRepository.getById(id);
 			
 			tx.commit();
+			
+			// transformation entity en entity dto
+			dto = new EpreuveLightDto();
+			dto.setId(epreuve.getId());
+			dto.setAnnee(epreuve.getAnnee());
+			dto.setTypeEpreuve(epreuve.getTypeEpreuve());
 		}
 		catch (Exception e) {
 			if (tx != null) tx.rollback();
@@ -89,7 +113,7 @@ public class EpreuveService {
 			if (session != null) session.close();
 		}
 		
-		return epreuve;
+		return dto;
 	}
 	
 	public void updateEpreuve(Epreuve obj) {

@@ -5,6 +5,8 @@ package sn.boom.apptennis.controller;
 
 import java.util.Scanner;
 
+import sn.boom.apptennis.core.dto.EpreuveFullDto;
+import sn.boom.apptennis.core.dto.EpreuveLightDto;
 import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.services.EpreuveService;
 
@@ -20,14 +22,14 @@ public class EpreuveController {
 		this.epreuveService = new EpreuveService();
 	}
 	
-	public void afficheDerniereEpreuve() {
+	public void afficheEpreuveTournoi() {
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("Entrer l'identifiant de l'epreuve :");
 		Long identifiant = Long.parseLong(scan.nextLine());
-		Epreuve epreuve = epreuveService.getEpreuveWithTournoi(identifiant);
+		EpreuveFullDto epreuveFullDto = epreuveService.getEpreuveWithTournoi(identifiant);
 		
-		System.out.println(" Annee : "+ epreuve.getAnnee() +" | Type : "+ epreuve.getTypeEpreuve() +"  |  Nom Tournoi : "+ epreuve.getTournoi().getNom());
+		System.out.println(" Annee : "+ epreuveFullDto.getAnnee() +" | Type : "+ epreuveFullDto.getTypeEpreuve() +"  |  Nom Tournoi : "+ epreuveFullDto.getTournoi().getNom());
 		
 		scan.close();
 	}
@@ -37,9 +39,9 @@ public class EpreuveController {
 		
 		System.out.println("Entrer l'identifiant de l'epreuve :");
 		Long identifiant = Long.parseLong(scan.nextLine());
-		Epreuve epreuve = epreuveService.getEpreuveWithoutTournoi(identifiant);
+		EpreuveLightDto epreuveLightDto = epreuveService.getEpreuveWithoutTournoi(identifiant);
 		
-		System.out.println(" Annee : "+ epreuve.getAnnee() +" | Type : "+ epreuve.getTypeEpreuve());
+		System.out.println(" Annee : "+ epreuveLightDto.getAnnee() +" | Type : "+ epreuveLightDto.getTypeEpreuve());
 		
 		scan.close();
 	}
