@@ -1,14 +1,34 @@
 package sn.boom.apptennis.core.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "score_vainqueur")
 public class Score {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "set_1")
 	private Byte set1;
+	@Column(name = "set_2")
 	private Byte set2;
+	@Column(name = "set_3")
 	private Byte set3;
+	@Column(name = "set_4")
 	private Byte set4;
+	@Column(name = "set_5")
 	private Byte set5;
 	
+	@OneToOne
+	@JoinColumn(name = "id_match")
 	private Match match;
 	
 	public Score() {}

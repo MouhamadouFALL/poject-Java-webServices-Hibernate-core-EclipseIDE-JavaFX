@@ -3,6 +3,8 @@
  */
 package sn.boom.apptennis.core.entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -28,6 +32,10 @@ public class Epreuve {
 	private Tournoi tournoi;
 	@Column(name = "type_epreuve")
 	private Character typeEpreuve;
+	
+	@ManyToMany
+	@JoinTable(name = "participants", joinColumns = {@JoinColumn(name="id_epreuve")}, inverseJoinColumns = {@JoinColumn(name="id_joueur")})
+	private Set<Joueur> participants;
 	
 	public Epreuve() {}
 	
@@ -54,5 +62,13 @@ public class Epreuve {
 	}
 	public void setTypeEpreuve(Character typeEpreuve) {
 		this.typeEpreuve = typeEpreuve;
+	}
+
+	public Set<Joueur> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(Set<Joueur> participants) {
+		this.participants = participants;
 	}
 }

@@ -1,11 +1,15 @@
 package sn.boom.apptennis.core.dto;
 
+import java.util.Set;
+
 public class EpreuveFullDto {
 
 	private Long id;
 	private Short annee;
 	private TournoiDto tournoi;
 	private Character typeEpreuve;
+	
+	private Set<JoueurDto> participants;
 	
 	public EpreuveFullDto() {}
 	
@@ -32,5 +36,13 @@ public class EpreuveFullDto {
 	}
 	public void setTypeEpreuve(Character typeEpreuve) {
 		this.typeEpreuve = typeEpreuve;
+	}
+
+	public Set<JoueurDto> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(Set<JoueurDto> participants) {
+		this.participants = participants;
 	}
 }

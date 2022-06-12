@@ -3,11 +3,13 @@
  */
 package sn.boom.apptennis.core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import sn.boom.apptennis.core.dto.TournoiDto;
 import sn.boom.apptennis.core.entities.Tournoi;
 import sn.boom.apptennis.core.repository.TournoiRepositoryImpl;
 import sn.boom.sgi.hibernate.HibernateManager;
@@ -24,14 +26,22 @@ public class TournoiService {
 		this.tournoiRepository = new TournoiRepositoryImpl();
 	}
 	
-	public void saveTournoi(Tournoi tournoi) {
+	public void saveTournoi(TournoiDto tournoiDto) {
 		
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
+			
+			// traduire l'objet dto en entity
+			Tournoi tournoi = new Tournoi();
+			tournoi.setId(tournoiDto.getId());
+			tournoi.setCode(tournoiDto.getCode());
+			tournoi.setNom(tournoiDto.getNom());
+			
 			tournoiRepository.create(tournoi);
+			
 			tx.commit();
 		}
 		catch(Exception e) {
@@ -43,15 +53,23 @@ public class TournoiService {
 		}
 	}
 
-	public Tournoi getTournoi(long id) {
+	public TournoiDto getTournoi(long id) {
 		
 		Tournoi tournoi = null;
+		TournoiDto tournoiDto = null;
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			tournoi = tournoiRepository.getById(id);
+			
+			// Traduire entity tournoi en tournoiDto
+			tournoiDto = new TournoiDto();
+			tournoiDto.setId(tournoi.getId());
+			tournoiDto.setCode(tournoi.getCode());
+			tournoiDto.setNom(tournoi.getNom());
+			
 			tx.commit();
 		}
 		catch(Exception e) {
@@ -62,18 +80,29 @@ public class TournoiService {
 			if (session != null) session.close();
 		}
 		
-		return tournoi;
+		return tournoiDto;
 	}
 	
-	public List<Tournoi> listeTournoi() {
+	@SuppressWarnings("null")
+	public List<TournoiDto> listeTournoi() {
 		
 		List<Tournoi> tournois = null;
+		List<TournoiDto> tournoisDto = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
+			
 			tournois = tournoiRepository.list();
+			for (Tournoi dto : tournois) {
+				TournoiDto tournoiDto = new TournoiDto();
+				tournoiDto.setId(dto.getId());
+				tournoiDto.setCode(dto.getCode());
+				tournoiDto.setNom(dto.getNom());
+				
+				tournoisDto.add(tournoiDto);
+			}
 			tx.commit();
 		}
 		catch(Exception e) {
@@ -84,7 +113,7 @@ public class TournoiService {
 			if (session != null) session.close();
 		}
 		
-		return tournois;
+		return tournoisDto;
 	}
 	
 	public void updateTournoi(Tournoi tournoi) {

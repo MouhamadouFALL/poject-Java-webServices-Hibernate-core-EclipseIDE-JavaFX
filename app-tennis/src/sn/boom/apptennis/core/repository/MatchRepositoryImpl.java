@@ -20,5 +20,22 @@ public class MatchRepositoryImpl {
 		Session session = HibernateManager.getSessionFactory().getCurrentSession();
 		session.persist(match);
 	}
-
+	
+	public Match getById(long id) {
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		return session.get(Match.class, id);
+	}
+	
+	public void update(Match match) {
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		session.update(match);
+	}
+	
+	public void delete(long id) {
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		Match match = getById(id);
+		if (match != null) session.delete(match);
+	}
 }

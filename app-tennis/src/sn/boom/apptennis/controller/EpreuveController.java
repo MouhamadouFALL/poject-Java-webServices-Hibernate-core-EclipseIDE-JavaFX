@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import sn.boom.apptennis.core.dto.EpreuveFullDto;
 import sn.boom.apptennis.core.dto.EpreuveLightDto;
+import sn.boom.apptennis.core.dto.JoueurDto;
 import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.services.EpreuveService;
 
@@ -42,6 +43,21 @@ public class EpreuveController {
 		EpreuveLightDto epreuveLightDto = epreuveService.getEpreuveWithoutTournoi(identifiant);
 		
 		System.out.println(" Annee : "+ epreuveLightDto.getAnnee() +" | Type : "+ epreuveLightDto.getTypeEpreuve());
+		
+		scan.close();
+	}
+	
+	public void afficheEpreuveListJoueur() {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Entrer l'identifiant de l'epreuve :");
+		Long identifiant = Long.parseLong(scan.nextLine());
+		EpreuveFullDto epreuveFullDto = epreuveService.getEpreuveWithTournoiAndListJoueur(identifiant);
+		
+		System.out.println(" Annee : "+ epreuveFullDto.getAnnee() +" | Type : "+ epreuveFullDto.getTypeEpreuve());
+		for (JoueurDto j : epreuveFullDto.getParticipants()) {
+			System.out.println(" Nom : "+ j.getNom() +"  |  Prenom : "+ j.getPrenom());
+		}
 		
 		scan.close();
 	}

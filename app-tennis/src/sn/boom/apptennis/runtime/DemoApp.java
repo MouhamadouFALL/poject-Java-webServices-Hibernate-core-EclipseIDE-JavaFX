@@ -1,6 +1,8 @@
 package sn.boom.apptennis.runtime;
 
 import sn.boom.apptennis.controller.EpreuveController;
+import sn.boom.apptennis.controller.MatchController;
+import sn.boom.apptennis.controller.TournoiController;
 
 public class DemoApp {
 
@@ -20,9 +22,13 @@ public class DemoApp {
 		//tournoiController.listeTournois();
 		
 		EpreuveController epreuveController = new EpreuveController();
-		epreuveController.afficheEpreuve();
+		//epreuveController.afficheEpreuve();
 		//epreuveController.afficheEpreuveTournoi();
 		//epreuveController.saveEpreuve();
+		epreuveController.afficheEpreuveListJoueur();
+		
+		//MatchController matchController = new MatchController();
+		//matchController.afficheMatch();
 	}
 
 }
