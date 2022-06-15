@@ -1,6 +1,7 @@
 package sn.boom.apptennis.runtime;
 
 import sn.boom.apptennis.controller.EpreuveController;
+import sn.boom.apptennis.controller.JoueurController;
 import sn.boom.apptennis.controller.MatchController;
 import sn.boom.apptennis.controller.ScoreController;
 import sn.boom.apptennis.controller.TournoiController;
@@ -8,12 +9,13 @@ import sn.boom.apptennis.controller.TournoiController;
 public class DemoApp {
 
 	public static void main(String[] args) {
-		//JoueurController joueurController = new JoueurController();
+		JoueurController joueurController = new JoueurController();
 		//joueurController.afficheJoueur();
 		//joueurController.saveJoueur();
 		//joueurController.updateJoueur();
 		//joueurController.supprimerJoueur();
 		//joueurController.listeJoueur();
+		joueurController.listeJoueurFiltre();
 		
 		//TournoiController tournoiController = new TournoiController();
 		//tournoiController.afficheTournoi();
@@ -33,8 +35,8 @@ public class DemoApp {
 		//matchController.tapisVert();
 		//matchController.createMatch();
 		
-		ScoreController scoreController = new ScoreController();
-		scoreController.supprimerScore();
+		//ScoreController scoreController = new ScoreController();
+		//scoreController.supprimerScore();
 	}
 
 }

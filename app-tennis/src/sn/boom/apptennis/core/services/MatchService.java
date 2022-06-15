@@ -16,7 +16,7 @@ import sn.boom.apptennis.core.entities.Joueur;
 import sn.boom.apptennis.core.entities.Match;
 import sn.boom.apptennis.core.entities.Score;
 import sn.boom.apptennis.core.entities.Tournoi;
-import sn.boom.apptennis.core.repository.EpreuveRepository;
+import sn.boom.apptennis.core.repository.EpreuveRepositoryImpl;
 import sn.boom.apptennis.core.repository.JoueurRepositoryImpl;
 import sn.boom.apptennis.core.repository.MatchRepositoryImpl;
 import sn.boom.apptennis.core.repository.ScoreRepositoryImpl;
@@ -29,12 +29,12 @@ import sn.boom.sgi.hibernate.HibernateManager;
 public class MatchService {
 
 	private MatchRepositoryImpl matchRepository;
-	private EpreuveRepository  epreuveRepository;
+	private EpreuveRepositoryImpl  epreuveRepository;
 	private JoueurRepositoryImpl joueurRepository;
 	
 	public MatchService() {
 		matchRepository = new MatchRepositoryImpl();
-		epreuveRepository = new EpreuveRepository();
+		epreuveRepository = new EpreuveRepositoryImpl();
 		joueurRepository = new JoueurRepositoryImpl();
 	}
 	

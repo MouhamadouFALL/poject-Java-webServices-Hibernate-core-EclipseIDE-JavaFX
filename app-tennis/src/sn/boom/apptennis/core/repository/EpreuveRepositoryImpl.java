@@ -17,7 +17,7 @@ import sn.boom.sgi.hibernate.HibernateManager;
  * @author nabyFall
  *
  */
-public class EpreuveRepository {
+public class EpreuveRepositoryImpl {
 	
 	public void create(Epreuve epreuve) {
 		Session session = HibernateManager.getSessionFactory().getCurrentSession();

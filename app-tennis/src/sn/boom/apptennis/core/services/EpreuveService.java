@@ -13,15 +13,15 @@ import sn.boom.apptennis.core.dto.JoueurDto;
 import sn.boom.apptennis.core.dto.TournoiDto;
 import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.entities.Joueur;
-import sn.boom.apptennis.core.repository.EpreuveRepository;
+import sn.boom.apptennis.core.repository.EpreuveRepositoryImpl;
 import sn.boom.sgi.hibernate.HibernateManager;
 
 public class EpreuveService {
 	
-	private EpreuveRepository epreuveRepository;
+	private EpreuveRepositoryImpl epreuveRepository;
 	
 	public EpreuveService() {
-		this.epreuveRepository = new EpreuveRepository();
+		this.epreuveRepository = new EpreuveRepositoryImpl();
 	}
 
 	public void createEpreuve(Epreuve epreuve) {

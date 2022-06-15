@@ -6,6 +6,7 @@ package sn.boom.apptennis.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import sn.boom.apptennis.core.dto.JoueurDto;
 import sn.boom.apptennis.core.entities.Joueur;
 import sn.boom.apptennis.core.services.JoueurService;
 
@@ -99,10 +100,25 @@ public class JoueurController {
 	}
 	
 	public void listeJoueur() {
-		List<Joueur> joueurs = joueurService.listeJoueurs();
+		List<JoueurDto> joueurs = joueurService.listeJoueurs();
 		System.out.println("-------------------------------- Liste des Joueurs ---------------------------------");
-		for(Joueur joueur : joueurs) {
+		for(JoueurDto joueur : joueurs) {
 			System.out.println("Id : "+ joueur.getId() +" | Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
 		}
+	}
+	
+	public void listeJoueurFiltre() {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Entrer le sexe des joueurs : ");
+		char sexe = scan.nextLine().charAt(0);
+		
+		List<JoueurDto> joueurs = joueurService.listeJoueurs(sexe);
+		System.out.println("-------------------------------- Liste des Joueurs ---------------------------------");
+		for(JoueurDto joueur : joueurs) {
+			System.out.println("Id : "+ joueur.getId() +" | Nom : "+ joueur.getNom() +" | Prenom : "+ joueur.getPrenom());
+		}
+		
+		scan.close();
 	}
 }

@@ -48,6 +48,20 @@ public class JoueurRepositoryImpl {
 		return joueurs;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Joueur> list(char sexe){
+		
+		List<Joueur> joueurs = new ArrayList<>();
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("Select j From Joueur j where sexe=?0");
+		query.setParameter(0, sexe);
+		
+		joueurs = query.getResultList();
+		
+		return joueurs;
+	}
+	
 	public void delete(long id) {
 		
 		Joueur joueur = getById(id);
