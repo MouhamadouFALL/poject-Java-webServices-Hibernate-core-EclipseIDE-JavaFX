@@ -3,15 +3,10 @@
  */
 package sn.boom.apptennis.core.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Types;
-
 import org.hibernate.Session;
 
 import sn.boom.apptennis.core.entities.Score;
-import sn.boom.sgi.jdbc.DBManagerBDS;
+import sn.boom.sgi.hibernate.HibernateManager;
 
 /**
  * @author nabyFall
@@ -19,16 +14,28 @@ import sn.boom.sgi.jdbc.DBManagerBDS;
  */
 public class ScoreRepositoryImpl {
 	
-	public void create(Score score) throws Exception {
+	public void create(Score score) throws Exception{
 		
-		Session session = null;
-		try{
-			
-			
-		}
-		catch(Exception e) {
-			throw new Exception(e.getMessage());
-		}
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		session.persist(score);
+	}
+	
+	public Score getById(long id) {
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		return session.get(Score.class, id);
+	}
+	
+	public void update(Score score) {
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		session.update(score);
+	}
+	
+	public void delete(long id) {
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		Score score = getById(id);
+		if (score != null) session.delete(score);
 	}
 
 }
