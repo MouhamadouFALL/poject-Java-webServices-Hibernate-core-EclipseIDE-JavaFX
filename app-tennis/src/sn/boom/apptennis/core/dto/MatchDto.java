@@ -13,7 +13,7 @@ public class MatchDto {
 	private JoueurDto vainqueur;
 	private JoueurDto finaliste;
 	private EpreuveFullDto epreuve;
-	// private Score score;
+	private ScoreFullDto score;
 	
 	public MatchDto() {}
 	
@@ -49,12 +49,11 @@ public class MatchDto {
 		this.epreuve = epreuve;
 	}
 
-	/*
-	public Score getScore() {
+	public ScoreFullDto getScore() {
 		return score;
 	}
 
-	public void setScore(Score score) {
+	public void setScore(ScoreFullDto score) {
 		this.score = score;
-	}*/
+	}
 }

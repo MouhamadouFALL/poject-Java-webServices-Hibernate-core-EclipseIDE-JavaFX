@@ -21,14 +21,16 @@ public class DemoApp {
 		//tournoiController.supprimerTournoi();
 		//tournoiController.listeTournois();
 		
-		EpreuveController epreuveController = new EpreuveController();
+		//EpreuveController epreuveController = new EpreuveController();
 		//epreuveController.afficheEpreuve();
 		//epreuveController.afficheEpreuveTournoi();
 		//epreuveController.saveEpreuve();
-		epreuveController.afficheEpreuveListJoueur();
+		//epreuveController.afficheEpreuveListJoueur();
 		
-		//MatchController matchController = new MatchController();
+		MatchController matchController = new MatchController();
 		//matchController.afficheMatch();
+		//matchController.tapisVert();
+		matchController.createMatch();
 	}
 
 }

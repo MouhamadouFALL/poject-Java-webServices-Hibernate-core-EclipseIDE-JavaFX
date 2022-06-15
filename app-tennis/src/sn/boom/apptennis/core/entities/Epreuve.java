@@ -34,7 +34,11 @@ public class Epreuve {
 	private Character typeEpreuve;
 	
 	@ManyToMany
-	@JoinTable(name = "participants", joinColumns = {@JoinColumn(name="id_epreuve")}, inverseJoinColumns = {@JoinColumn(name="id_joueur")})
+	@JoinTable(
+			name = "participants", 
+			joinColumns = {@JoinColumn(name="id_epreuve")}, 
+			inverseJoinColumns = {@JoinColumn(name="id_joueur")
+						})
 	private Set<Joueur> participants;
 	
 	public Epreuve() {}

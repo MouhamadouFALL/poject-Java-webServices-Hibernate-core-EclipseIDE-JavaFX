@@ -55,6 +55,7 @@ public class EpreuveController {
 		EpreuveFullDto epreuveFullDto = epreuveService.getEpreuveWithTournoiAndListJoueur(identifiant);
 		
 		System.out.println(" Annee : "+ epreuveFullDto.getAnnee() +" | Type : "+ epreuveFullDto.getTypeEpreuve());
+		System.out.println("------------------------- Liste des joueurs participants ----------------------------");
 		for (JoueurDto j : epreuveFullDto.getParticipants()) {
 			System.out.println(" Nom : "+ j.getNom() +"  |  Prenom : "+ j.getPrenom());
 		}

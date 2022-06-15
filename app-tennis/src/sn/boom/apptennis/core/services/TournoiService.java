@@ -34,7 +34,7 @@ public class TournoiService {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			
-			// traduire l'objet dto en entity
+			// traduire l'objet dto en object entity
 			Tournoi tournoi = new Tournoi();
 			tournoi.setId(tournoiDto.getId());
 			tournoi.setCode(tournoiDto.getCode());
@@ -55,16 +55,15 @@ public class TournoiService {
 
 	public TournoiDto getTournoi(long id) {
 		
-		Tournoi tournoi = null;
 		TournoiDto tournoiDto = null;
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
-			tournoi = tournoiRepository.getById(id);
+			Tournoi tournoi = tournoiRepository.getById(id);
 			
-			// Traduire entity tournoi en tournoiDto
+			// Traduire objet entity tournoi en objet DTO tournoiDto
 			tournoiDto = new TournoiDto();
 			tournoiDto.setId(tournoi.getId());
 			tournoiDto.setCode(tournoi.getCode());

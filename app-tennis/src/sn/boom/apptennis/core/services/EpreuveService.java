@@ -120,7 +120,6 @@ public class EpreuveService {
 	
 	public EpreuveFullDto getEpreuveWithTournoiAndListJoueur(long id) {
 		
-		Epreuve epreuve = null;
 		EpreuveFullDto dto  = null;
 		Session session = null;
 		Transaction tx = null;
@@ -129,7 +128,7 @@ public class EpreuveService {
 			session = HibernateManager.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			
-			epreuve = epreuveRepository.getById(id);
+			Epreuve epreuve = epreuveRepository.getById(id);
 			
 			// transformation entity en entity dto
 			dto = new EpreuveFullDto();
@@ -137,7 +136,13 @@ public class EpreuveService {
 			dto.setAnnee(epreuve.getAnnee());
 			dto.setTypeEpreuve(epreuve.getTypeEpreuve());
 			
-			//Set<JoueurDto> joueursdto = new HashSet<>();
+			TournoiDto tournoiDto = new TournoiDto();
+			tournoiDto.setId(epreuve.getTournoi().getId());
+			tournoiDto.setCode(epreuve.getTournoi().getCode());
+			tournoiDto.setNom(epreuve.getTournoi().getNom());
+			
+			dto.setTournoi(tournoiDto);
+			
 			dto.setParticipants(new HashSet<>());
 			for (Joueur joueur : epreuve.getParticipants()) {
 				JoueurDto joueurdto = new JoueurDto();
@@ -147,17 +152,8 @@ public class EpreuveService {
 				joueurdto.setSexe(joueur.getSexe());
 				
 				dto.getParticipants().add(joueurdto);
-				//joueursdto.add(joueurdto);
 			}
 			
-			//dto.setParticipants(joueursdto);
-			
-			TournoiDto tournoiDto = new TournoiDto();
-			tournoiDto.setId(epreuve.getTournoi().getId());
-			tournoiDto.setCode(epreuve.getTournoi().getCode());
-			tournoiDto.setNom(epreuve.getTournoi().getNom());
-			
-			dto.setTournoi(tournoiDto);
 			
 			tx.commit();
 		}
