@@ -54,8 +54,23 @@ public class JoueurRepositoryImpl {
 		List<Joueur> joueurs = new ArrayList<>();
 		
 		Session session = HibernateManager.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("Select j From Joueur j where sexe=?0");
+		Query query = session.createNamedQuery("getBySexe");
 		query.setParameter(0, sexe);
+		
+		joueurs = query.getResultList();
+		
+		return joueurs;
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	public List<Joueur> list(String nom){
+		
+		List<Joueur> joueurs = new ArrayList<>();
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("From Joueur where nom=?0");
+		query.setParameter(0, nom);
 		
 		joueurs = query.getResultList();
 		

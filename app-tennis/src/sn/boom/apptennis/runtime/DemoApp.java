@@ -29,11 +29,13 @@ public class DemoApp {
 		//epreuveController.afficheEpreuveTournoi();
 		//epreuveController.saveEpreuve();
 		//epreuveController.afficheEpreuveListJoueur();
+		//epreuveController.afficheListEpreuvesCode();
 		
 		//MatchController matchController = new MatchController();
 		//matchController.afficheMatch();
 		//matchController.tapisVert();
 		//matchController.createMatch();
+		// matchController.deleteMatch();
 		
 		//ScoreController scoreController = new ScoreController();
 		//scoreController.supprimerScore();

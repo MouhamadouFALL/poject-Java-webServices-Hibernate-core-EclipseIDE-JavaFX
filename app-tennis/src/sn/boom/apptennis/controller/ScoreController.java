@@ -13,6 +13,7 @@ public class ScoreController {
 	}
 
 	public void supprimerScore() {
+		
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("Entrer l'identifiant du score à supprimer :");
@@ -23,5 +24,6 @@ public class ScoreController {
 		System.out.println("Id : "+ identifiant +" bien supprimer ");
 		
 		scan.close();
+	
 	}
 }

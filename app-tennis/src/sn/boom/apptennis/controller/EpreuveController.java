@@ -47,10 +47,24 @@ public class EpreuveController {
 		scan.close();
 	}
 	
+	public void afficheListEpreuvesCode() {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Entrer le code du tournoi :");
+		String code = scan.nextLine();
+		
+		System.out.println("------------------------- Liste des joueurs participants ----------------------------");
+		for (EpreuveFullDto epreuveDto : epreuveService.listeEpreuve(code)) {
+			System.out.println(" Annee : "+ epreuveDto.getAnnee() +" | Type : "+ epreuveDto.getTypeEpreuve()+"  |  Nom tournoi : "+ epreuveDto.getTournoi().getNom() +"  |  Code : "+ epreuveDto.getTournoi().getCode());
+		}
+		
+		scan.close();
+	}
+	
 	public void afficheEpreuveListJoueur() {
 		Scanner scan = new Scanner(System.in);
 		
-		System.out.println("Entrer l'identifiant de l'epreuve :");
+		//System.out.println("Entrer le code du tournoi :");
 		Long identifiant = Long.parseLong(scan.nextLine());
 		EpreuveFullDto epreuveFullDto = epreuveService.getEpreuveWithTournoiAndListJoueur(identifiant);
 		
@@ -89,6 +103,18 @@ public class EpreuveController {
 		epreuveService.deleteEpreuve(identifiant);
 		
 		System.out.println("Id : "+ identifiant +" bien supprimer ");
+		
+		scan.close();
+	}
+	
+	public void afficheEpreuveScore() {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Entrer l'identifiant de l'epreuve :");
+		Long identifiant = Long.parseLong(scan.nextLine());
+		EpreuveLightDto epreuveLightDto = epreuveService.getEpreuveWithoutTournoi(identifiant);
+		
+		System.out.println(" Annee : "+ epreuveLightDto.getAnnee() +" | Type : "+ epreuveLightDto.getTypeEpreuve());
 		
 		scan.close();
 	}

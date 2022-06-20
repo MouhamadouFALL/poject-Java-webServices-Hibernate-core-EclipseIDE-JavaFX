@@ -11,15 +11,12 @@ import sn.boom.apptennis.core.dto.JoueurDto;
 import sn.boom.apptennis.core.dto.MatchDto;
 import sn.boom.apptennis.core.dto.ScoreFullDto;
 import sn.boom.apptennis.core.dto.TournoiDto;
-import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.entities.Joueur;
 import sn.boom.apptennis.core.entities.Match;
 import sn.boom.apptennis.core.entities.Score;
-import sn.boom.apptennis.core.entities.Tournoi;
 import sn.boom.apptennis.core.repository.EpreuveRepositoryImpl;
 import sn.boom.apptennis.core.repository.JoueurRepositoryImpl;
 import sn.boom.apptennis.core.repository.MatchRepositoryImpl;
-import sn.boom.apptennis.core.repository.ScoreRepositoryImpl;
 import sn.boom.sgi.hibernate.HibernateManager;
 
 /**
@@ -78,7 +75,7 @@ public class MatchService {
 		
 		Session session = null;
 		Transaction tx = null;
-		MatchDto dto = null;
+		MatchDto matchdto = null;
 		try {
 			
 			session = HibernateManager.getSessionFactory().getCurrentSession();
@@ -86,8 +83,8 @@ public class MatchService {
 			
 			Match match = matchRepository.getById(id);
 			
-			dto = new MatchDto();
-			dto.setId(match.getId());
+			matchdto = new MatchDto();
+			matchdto.setId(match.getId()); //
 			
 			JoueurDto vainqueur = new JoueurDto();
 			vainqueur.setId(match.getVainqueur().getId());
@@ -95,7 +92,7 @@ public class MatchService {
 			vainqueur.setPrenom(match.getVainqueur().getPrenom());
 			vainqueur.setSexe(match.getVainqueur().getSexe());
 			
-			dto.setVainqueur(vainqueur);
+			matchdto.setVainqueur(vainqueur); //
 			
 			JoueurDto finaliste = new JoueurDto();
 			finaliste.setId(match.getFinaliste().getId());
@@ -103,7 +100,7 @@ public class MatchService {
 			finaliste.setPrenom(match.getFinaliste().getPrenom());
 			finaliste.setSexe(match.getFinaliste().getSexe());
 			
-			dto.setFinaliste(finaliste);
+			matchdto.setFinaliste(finaliste); //
 			
 			TournoiDto tournoiDto = new TournoiDto();
 			tournoiDto.setId(match.getEpreuve().getTournoi().getId());
@@ -116,7 +113,7 @@ public class MatchService {
 			epreuvedto.setAnnee(match.getEpreuve().getAnnee());
 			epreuvedto.setTypeEpreuve(match.getEpreuve().getTypeEpreuve());
 			
-			dto.setEpreuve(epreuvedto);
+			matchdto.setEpreuve(epreuvedto); //
 			
 			ScoreFullDto scoreFullDto = new ScoreFullDto();
 			scoreFullDto.setId(match.getScore().getId());
@@ -126,8 +123,9 @@ public class MatchService {
 			scoreFullDto.setSet4(match.getScore().getSet4());
 			scoreFullDto.setSet5(match.getScore().getSet5());
 			
-			dto.setScore(scoreFullDto);
-			scoreFullDto.setMatchDto(dto);
+			matchdto.setScore(scoreFullDto); //
+			
+			scoreFullDto.setMatchDto(matchdto);
 			
 			tx.commit();
 			
@@ -138,7 +136,7 @@ public class MatchService {
 			if (session != null) session.close();
 		}
 		
-		return dto;
+		return matchdto;
 	}
 	
 	public void tapisVert(long id) {
@@ -171,6 +169,28 @@ public class MatchService {
 		}
 		finally {
 			if (session != null) session.close();
+		}
+	}
+	
+	
+	public void deleteMatch(long id) {
+		
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			
+			matchRepository.delete(id);
+			
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println("Error : "+ e.getMessage() +" | "+ e.getClass());
+		}
+		finally {
+			if(session != null) session.close();
 		}
 	}
 	

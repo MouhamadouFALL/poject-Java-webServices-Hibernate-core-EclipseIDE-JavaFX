@@ -1,8 +1,8 @@
 package sn.boom.apptennis.core.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -238,5 +238,42 @@ public class EpreuveService {
 		}
 		
 		return epreuves;
+	}
+	
+	public List<EpreuveFullDto> listeEpreuve(String code){
+		
+		List<EpreuveFullDto> epreuvesDto = new ArrayList<>();
+		Session session = null;
+		Transaction tx= null;
+		try {
+			session = HibernateManager.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			
+			List<Epreuve> epreuves = epreuveRepository.list(code);
+			for (Epreuve epreuve : epreuves) {
+				final EpreuveFullDto epreuveDto = new EpreuveFullDto();
+				epreuveDto.setId(epreuve.getId());
+				epreuveDto.setAnnee(epreuve.getAnnee());
+				epreuveDto.setTypeEpreuve(epreuve.getTypeEpreuve());
+				TournoiDto tournoiDto = new TournoiDto();
+				tournoiDto.setId(epreuve.getTournoi().getId());
+				tournoiDto.setNom(epreuve.getTournoi().getNom());
+				tournoiDto.setCode(epreuve.getTournoi().getCode());
+				epreuveDto.setTournoi(tournoiDto);
+				
+				epreuvesDto.add(epreuveDto);
+			}
+			
+			tx.commit();
+		}
+		catch(Exception e) {
+			if (tx != null) tx.rollback();
+			System.err.println(e.getMessage());
+		}
+		finally {
+			if(session != null) session.close();
+		}
+		
+		return epreuvesDto;
 	}
 }

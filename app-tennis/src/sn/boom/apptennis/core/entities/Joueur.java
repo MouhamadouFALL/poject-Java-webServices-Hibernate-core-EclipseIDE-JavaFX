@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
 /**
  * @author nabyFall
  *
@@ -18,6 +20,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "joueur")
+@NamedQuery(query = "Select j From Joueur j where j.sexe=?0", name = "getBySexe")
+@NamedQuery(query = "From Joueur where nom=?0", name = "get_by_name")
 public class Joueur {
 	
 	@Id

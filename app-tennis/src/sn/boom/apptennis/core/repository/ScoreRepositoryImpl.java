@@ -32,7 +32,6 @@ public class ScoreRepositoryImpl {
 	}
 	
 	public void delete(long id) {
-		
 		Session session = HibernateManager.getSessionFactory().getCurrentSession();
 		Score score = getById(id);
 		if (score != null) session.delete(score);

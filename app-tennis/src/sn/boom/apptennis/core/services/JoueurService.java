@@ -152,7 +152,7 @@ public class JoueurService {
 		return joueurDtos;
 	}
 	
-public List<JoueurDto> listeJoueurs(char sexe){
+	public List<JoueurDto> listeJoueurs(char sexe){
 		
 		List<JoueurDto> joueurDtos = new ArrayList<>();
 		Session session = null;

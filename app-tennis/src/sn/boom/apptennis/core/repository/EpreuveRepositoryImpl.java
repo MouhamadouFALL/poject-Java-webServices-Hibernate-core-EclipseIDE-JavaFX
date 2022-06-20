@@ -42,6 +42,21 @@ public class EpreuveRepositoryImpl {
 		return epreuves;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Epreuve> list(String code) {
+		
+		List<Epreuve> epreuves = new ArrayList<>();
+		
+		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		// permet de garder la relation en LAZY et de faire une jointure entre le entités pour des raison de performence
+		Query query = session.createQuery("From Epreuve e join fetch e.tournoi where e.tournoi.code = ?0"); 
+		//Query query = session.createQuery("From Epreuve e where e.tournoi.code = ?0");
+		query.setParameter(0, code);
+		epreuves = query.getResultList();
+		
+		return epreuves;
+	}
+	
 	public void update(Epreuve epreuve) {
 		
 		Session session = HibernateManager.getSessionFactory().getCurrentSession();
