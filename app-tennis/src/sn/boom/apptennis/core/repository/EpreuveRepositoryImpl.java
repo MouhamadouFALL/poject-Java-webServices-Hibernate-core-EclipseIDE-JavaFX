@@ -6,12 +6,11 @@ package sn.boom.apptennis.core.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.hibernate.Session;
-
 import sn.boom.apptennis.core.entities.Epreuve;
-import sn.boom.sgi.hibernate.HibernateManager;
+import sn.boom.sgi.jpa.EntityManagerHolder;
 
 /**
  * @author nabyFall
@@ -20,14 +19,17 @@ import sn.boom.sgi.hibernate.HibernateManager;
 public class EpreuveRepositoryImpl {
 	
 	public void create(Epreuve epreuve) {
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
-		session.persist(epreuve);
+		//Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		//session.persist(epreuve);
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
+		em.persist(epreuve);
+		
 	}
 	
 	public Epreuve getById(long id) {
 		
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
-		return session.find(Epreuve.class, id);
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
+		return em.find(Epreuve.class, id);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -35,8 +37,8 @@ public class EpreuveRepositoryImpl {
 		
 		List<Epreuve> epreuves = new ArrayList<>();
 		
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("From Epreuve");
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
+		Query query = em.createQuery("From Epreuve");
 		epreuves = query.getResultList();
 		
 		return epreuves;
@@ -47,9 +49,9 @@ public class EpreuveRepositoryImpl {
 		
 		List<Epreuve> epreuves = new ArrayList<>();
 		
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
 		// permet de garder la relation en LAZY et de faire une jointure entre le entités pour des raison de performence
-		Query query = session.createQuery("From Epreuve e join fetch e.tournoi where e.tournoi.code = ?0"); 
+		Query query = em.createQuery("From Epreuve e join fetch e.tournoi where e.tournoi.code = ?0"); 
 		//Query query = session.createQuery("From Epreuve e where e.tournoi.code = ?0");
 		query.setParameter(0, code);
 		epreuves = query.getResultList();
@@ -59,15 +61,15 @@ public class EpreuveRepositoryImpl {
 	
 	public void update(Epreuve epreuve) {
 		
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
-		session.update(epreuve);
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
+		em.merge(epreuve);
 	}
 	
 	public void delete(long id) {
 		
-		Session session = HibernateManager.getSessionFactory().getCurrentSession();
+		EntityManager em = EntityManagerHolder.getCurrentEntityManager();
 		Epreuve epreuve = getById(id);
-		if (epreuve != null) session.delete(epreuve);
+		if (epreuve != null) em.remove(epreuve);
 	}
 
 }

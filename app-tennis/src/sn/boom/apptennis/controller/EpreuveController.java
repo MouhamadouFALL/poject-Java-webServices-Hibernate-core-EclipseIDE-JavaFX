@@ -3,6 +3,7 @@
  */
 package sn.boom.apptennis.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import sn.boom.apptennis.core.dto.EpreuveFullDto;
@@ -53,8 +54,9 @@ public class EpreuveController {
 		System.out.println("Entrer le code du tournoi :");
 		String code = scan.nextLine();
 		
+		List<EpreuveFullDto> epreuvesDto = epreuveService.listeEpreuve(code);
 		System.out.println("------------------------- Liste des joueurs participants ----------------------------");
-		for (EpreuveFullDto epreuveDto : epreuveService.listeEpreuve(code)) {
+		for (EpreuveFullDto epreuveDto : epreuvesDto) {
 			System.out.println(" Annee : "+ epreuveDto.getAnnee() +" | Type : "+ epreuveDto.getTypeEpreuve()+"  |  Nom tournoi : "+ epreuveDto.getTournoi().getNom() +"  |  Code : "+ epreuveDto.getTournoi().getCode());
 		}
 		
@@ -64,7 +66,7 @@ public class EpreuveController {
 	public void afficheEpreuveListJoueur() {
 		Scanner scan = new Scanner(System.in);
 		
-		//System.out.println("Entrer le code du tournoi :");
+		System.out.println("Entrer l'identifiant de l'epreuve :");
 		Long identifiant = Long.parseLong(scan.nextLine());
 		EpreuveFullDto epreuveFullDto = epreuveService.getEpreuveWithTournoiAndListJoueur(identifiant);
 		

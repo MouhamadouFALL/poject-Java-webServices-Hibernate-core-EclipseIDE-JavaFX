@@ -9,13 +9,13 @@ import sn.boom.apptennis.controller.TournoiController;
 public class DemoApp {
 
 	public static void main(String[] args) {
-		JoueurController joueurController = new JoueurController();
+		//JoueurController joueurController = new JoueurController();
 		//joueurController.afficheJoueur();
 		//joueurController.saveJoueur();
 		//joueurController.updateJoueur();
 		//joueurController.supprimerJoueur();
 		//joueurController.listeJoueur();
-		joueurController.listeJoueurFiltre();
+		//joueurController.listeJoueurFiltre();
 		
 		//TournoiController tournoiController = new TournoiController();
 		//tournoiController.afficheTournoi();

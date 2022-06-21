@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import sn.boom.apptennis.core.dto.EpreuveFullDto;
 import sn.boom.apptennis.core.dto.EpreuveLightDto;
@@ -13,8 +13,9 @@ import sn.boom.apptennis.core.dto.JoueurDto;
 import sn.boom.apptennis.core.dto.TournoiDto;
 import sn.boom.apptennis.core.entities.Epreuve;
 import sn.boom.apptennis.core.entities.Joueur;
+import sn.boom.apptennis.core.entities.Tournoi;
 import sn.boom.apptennis.core.repository.EpreuveRepositoryImpl;
-import sn.boom.sgi.hibernate.HibernateManager;
+import sn.boom.sgi.jpa.EntityManagerHolder;
 
 public class EpreuveService {
 	
@@ -25,12 +26,13 @@ public class EpreuveService {
 	}
 
 	public void createEpreuve(Epreuve epreuve) {
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		try {
 			
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			epreuveRepository.create(epreuve);
 			
@@ -43,7 +45,7 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 	}
 	
@@ -51,12 +53,13 @@ public class EpreuveService {
 		
 		Epreuve epreuve = null;
 		EpreuveFullDto dto  = null;
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			epreuve = epreuveRepository.getById(id);
 			
@@ -80,7 +83,7 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 		
 		return dto;
@@ -90,12 +93,13 @@ public class EpreuveService {
 		
 		Epreuve epreuve = null;
 		EpreuveLightDto dto  = null;
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			epreuve = epreuveRepository.getById(id);
 			
@@ -112,7 +116,7 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 		
 		return dto;
@@ -121,12 +125,13 @@ public class EpreuveService {
 	public EpreuveFullDto getEpreuveWithTournoiAndListJoueur(long id) {
 		
 		EpreuveFullDto dto  = null;
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			Epreuve epreuve = epreuveRepository.getById(id);
 			
@@ -162,25 +167,31 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 		
 		return dto;
 	}
 	
-	public void updateEpreuve(Epreuve obj) {
+	public void updateEpreuve(EpreuveFullDto obj) {
 		
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			Epreuve epreuve = epreuveRepository.getById(obj.getId());
 			if (epreuve != null) {
 				epreuve.setAnnee(obj.getAnnee());
-				epreuve.setTournoi(obj.getTournoi());
 				epreuve.setTypeEpreuve(obj.getTypeEpreuve());
+				Tournoi tournoi = new Tournoi();
+				tournoi.setId(obj.getTournoi().getId());
+				tournoi.setCode(obj.getTournoi().getCode());
+				tournoi.setNom(obj.getTournoi().getCode());
+				epreuve.setTournoi(tournoi);
+				
 			}
 			
 			tx.commit();
@@ -190,18 +201,19 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 	}
 	
 	public void deleteEpreuve(long id) {
 		
-		Session session = null;
-		Transaction tx = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
 		
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			epreuveRepository.delete(id);
 			
@@ -212,20 +224,45 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if (session != null) session.close();
+			if (em != null) em.close();
 		}
 	}
 	
-	public List<Epreuve> listeEpreuve(){
+	public List<EpreuveFullDto> listeEpreuve(){
 		
-		List<Epreuve> epreuves = null;
-		Session session = null;
-		Transaction tx= null;
+		List<EpreuveFullDto> epreuvesDto = null;
+		EntityManager em = null;
+		EntityTransaction tx= null;
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
-			epreuves = epreuveRepository.list();
+			List<Epreuve> epreuves = epreuveRepository.list();
+			for (Epreuve e : epreuves) {
+				final EpreuveFullDto eDto = new EpreuveFullDto();
+				eDto.setId(e.getId());
+				eDto.setAnnee(e.getAnnee());
+				eDto.setTypeEpreuve(e.getTypeEpreuve());
+				
+				eDto.setParticipants(new HashSet<>());
+				for (Joueur joueur : e.getParticipants()) {
+					JoueurDto joueurdto = new JoueurDto();
+					joueurdto.setId(joueur.getId());
+					joueurdto.setNom(joueur.getNom());
+					joueurdto.setPrenom(joueur.getPrenom());
+					joueurdto.setSexe(joueur.getSexe());
+					
+					eDto.getParticipants().add(joueurdto);
+				}
+				
+				TournoiDto tournoiDto = new TournoiDto();
+				tournoiDto.setId(e.getTournoi().getId());
+				tournoiDto.setCode(e.getTournoi().getCode());
+				tournoiDto.setNom(e.getTournoi().getCode());
+				
+				eDto.setTournoi(tournoiDto);
+			}
 			
 			tx.commit();
 		}
@@ -234,20 +271,21 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if(session != null) session.close();
+			if(em != null) em.close();
 		}
 		
-		return epreuves;
+		return epreuvesDto;
 	}
 	
 	public List<EpreuveFullDto> listeEpreuve(String code){
 		
 		List<EpreuveFullDto> epreuvesDto = new ArrayList<>();
-		Session session = null;
-		Transaction tx= null;
+		EntityManager em = null;
+		EntityTransaction tx= null;
 		try {
-			session = HibernateManager.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
+			em = EntityManagerHolder.getCurrentEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
 			
 			List<Epreuve> epreuves = epreuveRepository.list(code);
 			for (Epreuve epreuve : epreuves) {
@@ -271,7 +309,7 @@ public class EpreuveService {
 			System.err.println(e.getMessage());
 		}
 		finally {
-			if(session != null) session.close();
+			if(em != null) em.close();
 		}
 		
 		return epreuvesDto;
